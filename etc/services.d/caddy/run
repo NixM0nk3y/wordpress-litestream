@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -P
+with-contenv
+s6-setuidgid caddy
+/usr/bin/caddy run -config /etc/Caddyfile --adapter caddyfile

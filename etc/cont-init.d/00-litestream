@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bash
+
+: ${REPLICA_URL?"Need to set REPLICA_URL environment variable"}
+
+# Restore the database if it does not already exist.
+if [ -f /var/run/wpdata/database.sqlite ]; then
+	echo "Database already exists, skipping restore"
+else
+	echo "No database found, restoring from replica if exists"
+	litestream restore -v -if-replica-exists -o /var/run/wpdata/database.sqlite "${REPLICA_URL}"
+    chown www-data:www-data /var/run/wpdata/database.sqlite
+fi

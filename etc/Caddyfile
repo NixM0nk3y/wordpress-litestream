@@ -1,0 +1,20 @@
+http://localhost:8008 {
+    root * /var/www/html
+    php_fastcgi unix//var/run/www.sock
+    encode gzip zstd
+
+    file_server
+
+    @forbidden {
+        path /xmlrpc.php
+        path *.sql
+        path /wp-content/uploads/*.php
+        path /.htaccess
+    }
+
+    respond @forbidden 404
+
+    log {
+        format single_field common_log
+    }
+}
